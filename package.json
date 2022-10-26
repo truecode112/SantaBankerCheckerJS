@@ -1,0 +1,30 @@
+{
+  "name": "santabankerchecker",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/truecode112/SantaBankerCheckerJS.git"
+  },
+  "keywords": [
+    "node.js",
+    "restapi",
+    "cryptography"
+  ],
+  "author": "truecoder",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/truecode112/SantaBankerCheckerJS/issues"
+  },
+  "homepage": "https://github.com/truecode112/SantaBankerCheckerJS#readme",
+  "dependencies": {
+    "crypto": "^1.0.1",
+    "diffie-hellman": "^5.0.3",
+    "diffie-hellman-js": "^2.1.0",
+    "unirest": "^0.6.0"
+  }
+}
