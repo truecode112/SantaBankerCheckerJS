@@ -79,7 +79,15 @@ const despacharThread = async (lista, num) => {
 }
 
 const login = (username, password) => {
-    mo12430e();
+    var publickey = mo12430e();
+    unirest
+        .post('https://m.santander.com.br/key-exchange/v1/exchange')
+        .strictSSL(false)
+        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
+        .send({ "dlbClientKey": publickey})
+        .then((response) => {
+            console.log(response.body)
+        })
 }
 
 module.exports = { login };
