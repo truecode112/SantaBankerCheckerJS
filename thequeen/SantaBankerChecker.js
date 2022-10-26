@@ -78,16 +78,23 @@ const despacharThread = async (lista, num) => {
     }
 }
 
-const login = (username, password) => {
+const login = async (username, password) => {
     var publickey = mo12430e();
-    unirest
+    var nonce = null;
+    var serverDLBv1 = null;
+    await unirest
         .post('https://m.santander.com.br/key-exchange/v1/exchange')
         .strictSSL(false)
         .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
         .send({ "dlbClientKey": publickey})
         .then((response) => {
-            console.log(response.body)
+            console.log('response', response.body);
+            nonce = response.body["nonce"];
+            serverDLBv1 = response.body["serverDLBv1"];
         })
+    
+    console.log('nonce', nonce);
+    console.log('serverDLBv1', serverDLBv1);
 }
 
 module.exports = { login };

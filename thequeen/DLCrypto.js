@@ -12,7 +12,7 @@ function der(tag,val){ // for basic tags and up to 64kB, which are enough here
     return Buffer.concat([enc,val]);
   }
   
-function derpint(onezero, x){ console.log('x',x); return der(0x02, x[0]<128? x: Buffer.concat([onezero,x])); }
+function derpint(onezero, x){ return der(0x02, x[0]<128? x: Buffer.concat([onezero,x])); }
 
 function derseq(x){return der(0x30, Buffer.concat(x));}
 
