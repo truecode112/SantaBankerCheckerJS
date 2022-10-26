@@ -22,9 +22,12 @@
   },
   "homepage": "https://github.com/truecode112/SantaBankerCheckerJS#readme",
   "dependencies": {
+    "big-integer": "^1.6.51",
+    "bigint-crypto-utils": "^3.1.7",
     "crypto": "^1.0.1",
     "diffie-hellman": "^5.0.3",
     "diffie-hellman-js": "^2.1.0",
+    "secure-random": "^1.1.2",
     "unirest": "^0.6.0"
   }
 }
