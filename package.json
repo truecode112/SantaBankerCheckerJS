@@ -23,10 +23,6 @@
   "homepage": "https://github.com/truecode112/SantaBankerCheckerJS#readme",
   "dependencies": {
     "crypto": "^1.0.1",
-    "diffie-hellman": "^5.0.3",
-    "java": "^0.12.2",
-    "node-gyp": "^9.3.0",
-    "rebuild": "^0.1.2",
     "unirest": "^0.6.0"
   }
 }
