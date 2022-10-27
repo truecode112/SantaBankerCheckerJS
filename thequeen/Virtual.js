@@ -1,6 +1,6 @@
 const Exchange = require('./Exchange.js');
 var unirest = require('unirest');
-const { mo12433c, mo12438a } = require('./DLCrypto.js')
+var execSync = require('child_process').execSync, child;
 
 class Virtual {
     constructor(ex, token) {
@@ -11,8 +11,8 @@ class Virtual {
     }
 
      async puxarSaldo() {
-        let strToken = this.f1105ex.contextId + ':' + this.token;
-        let buffer = new Buffer(strToken, 'base64');
+        let strToken = this.f1105ex['contextId'] + ':' + this.token;
+        let buffer = Buffer.from(strToken, 'base64');
         let bodyResponse = null;
 
         await unirest.get('https://m.santander.com.br/semaphore/v1/all')
@@ -24,7 +24,7 @@ class Virtual {
             .then((response) => {
                 this.token = response.header.get('access-token').get(0);
             });
-        let tokenb = new Buffer(this.token, 'base64');
+        let tokenb = Buffer.from(this.token, 'base64');
         this.token = tokenb.toString('base64');
 
         await unirest
@@ -65,13 +65,13 @@ class Virtual {
         return cardObject;
     }
 
-    async gerarVirtual(index) {
+    async gerarVirtual(index, f23050c) {
         this.token = this.lastResponse.headers.get('access-token').get(0);
         let tokenb = Buffer.from(this.token, 'base64');
         this.token = tokenb.toString('base64');
         let ts = Date.now();
         let strToken = this.f1105ex.contextId + ':' + this.token;
-        let buffer = new Buffer(strToken, 'base64');
+        let buffer = Buffer.from(strToken, 'base64');
         let resulString = null;
         await unirest.post('https://m.santander.com.br/card-online/v1/checkOsgFind')
             .header({'Authorization': buffer, 'Accept' : 'application/json', 'Content-Type':'application/json',
@@ -93,7 +93,8 @@ class Virtual {
             .send()
             .then((response) => {
                 this.lastResponse = response;
-                resulString = mo12438a(response.body);
+                let stdout = execSync('java -jar D:\\Work\\Java\\SantaBankerCheckerProxy\\app\\build\\libs\\app.jar mo12438a ' + response.body + ' ' + f23050c);
+                resulString = stdout.toString();
             });
         return resulString;
     }
