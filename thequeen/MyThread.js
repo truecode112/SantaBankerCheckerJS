@@ -5,8 +5,21 @@ const fs = require('fs');
 var testadas = 0;
 var dies = 0;
 
-function loginResultProcess(action, retorno) {
-    console.log("retorno", retorno);
+function loginResultProcess(index, action, retorno) {
+    console.log(`${action} login result:`, retorno);
+    if (index >= workerData.length)
+        return;
+    var action = workerData[index];
+    var usuario = action.split("|")[0];
+    var senha = action.split("|")[1];
+    console.log(`trying usuario = ${usuario}, senha = ${senha}`);
+    try {
+        login(usuario, senha, action, index, loginResultProcess);
+    }catch (e) {
+        console.log('login error', e);
+    }
+    return;
+    
     this.testadas++;
     let strData = retorno.replace("LIVE|", "LIVE " + action + " > ") + " | INFOS TESTADAS(T): " + this.testadas + " | DIES: " + this.dies + " | THREAD ID: " + threadId;
     strData += "\r\n====================================================================\r\n\r\n";
@@ -35,16 +48,24 @@ function loginResultProcess(action, retorno) {
 }
 
 if(workerData instanceof Array) {
-    workerData.forEach(action => {
-        console.log(action);
+    if (workerData.length > 0) {
+        index = 0;
+        var action = workerData[index];
         var usuario = action.split("|")[0];
         var senha = action.split("|")[1];
-        console.log(`usuario = ${usuario}, senha = ${senha}`);
+        console.log(`trying usuario = ${usuario}, senha = ${senha}`);
         try {
-            login(usuario, senha, action, loginResultProcess);
+            login(usuario, senha, action, index, loginResultProcess);
         }catch (e) {
             console.log('login error', e);
         }
+    }
+    for (var i = 0 ; i < workerData.length ; i++) {
+        
+    }
+    workerData.forEach(action => {
+        //console.log(action);
+        
     });
 }
 

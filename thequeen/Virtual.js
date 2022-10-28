@@ -1,5 +1,6 @@
 var unirest = require('unirest');
 var execSync = require('child_process').execSync, child;
+const axios = require('axios');
 
 class vir {
     constructor(ex, token) {
@@ -13,18 +14,20 @@ class vir {
         let strToken = this.f1105ex['contextId'] + ':' + this.token;
         console.log('strTOken', strToken);
         let buffer = Buffer.from(strToken);
+        let bodyResponse = null;
         let bufferString = buffer.toString('base64');
         console.log('bufferString', bufferString);
-        let bodyResponse = null;
-        await unirest.get('https://m.santander.com.br/semaphore/v1/all')
+        
+        await unirest.get('http://m.santander.com.br/semaphore/v1/all')
             .strictSSL(false)
-            .header({'Authorization': bufferString, 'Accept' : 'application/json', 
+            .headers({'Authorization': bufferString, 'Accept' : 'application/json',  
                     'User-Agent': 'Dalvik/2.1.0 (Linux; U; Android 12; sdk_gphone64_arm64 Build/SE1A.211012.001)',
                     'versao-mbb' : '12.1.0.0',
+                    'accept-encoding': 'gzip',
                     'x-info-user' : '8eca3c61b1a7565ca88cf5a928626dfebb6de49cb346a3307ad1c14177439c92'})
-            .then((response) => {
-                console.log('headers', response.body);
-                //this.token = response.headers['access-token'];
+            .end((response) => {
+                console.log('headers123', response.headers);
+                this.token = response.headers['access-token'];
             });
         console.log('puxar token', this.token);
 
@@ -59,7 +62,7 @@ class vir {
         let cardString = null;
 
         await unirest.get('https://m.santander.com.br/card-online/v1/cards')
-            .header({'Authorization': buffer.toString('base64'), 'Accept' : 'application/json', 
+            .headers({'Authorization': buffer.toString('base64'), 'Accept' : 'application/json', 
                     'User-Agent': 'Dalvik/2.1.0 (Linux; U; Android 12; sdk_gphone64_arm64 Build/SE1A.211012.001)',
                     'versao-mbb' : '12.1.0.0',
                     'x-info-user' : '8eca3c61b1a7565ca88cf5a928626dfebb6de49cb346a3307ad1c14177439c92'})
@@ -85,7 +88,7 @@ class vir {
         execResult = execResult.toString();
         execResult = execResult.replace(/[\n\r]/g, '');
         await unirest.post('https://m.santander.com.br/card-online/v1/checkOsgFind')
-            .header({'Authorization': buffer.toString('base64'), 'Accept' : 'application/json', 'Content-Type':'application/json',
+            .headers({'Authorization': buffer.toString('base64'), 'Accept' : 'application/json', 'Content-Type':'application/json',
                     'User-Agent': 'Dalvik/2.1.0 (Linux; U; Android 12; sdk_gphone64_arm64 Build/SE1A.211012.001)',
                     'versao-mbb' : '12.1.0.0',
                     'x-info-user' : '8eca3c61b1a7565ca88cf5a928626dfebb6de49cb346a3307ad1c14177439c92'})
@@ -99,7 +102,7 @@ class vir {
         strToken = this.f1105ex.contextId + ':' + this.token;
         buffer = Buffer.from(strToken);
         await unirest.get('https://m.santander.com.br/card-online/v1/cards/' + index)
-            .header({'Authorization': buffer.toString('base64'), 'Accept' : 'application/json', 
+            .headers({'Authorization': buffer.toString('base64'), 'Accept' : 'application/json', 
                     'User-Agent': 'Dalvik/2.1.0 (Linux; U; Android 12; sdk_gphone64_arm64 Build/SE1A.211012.001)',
                     'versao-mbb' : '12.1.0.0',
                     'x-info-user' : '8eca3c61b1a7565ca88cf5a928626dfebb6de49cb346a3307ad1c14177439c92'})
@@ -121,7 +124,7 @@ class vir {
         let buffer = Buffer.from(strToken);
         let limitString;
         await unirest.get('https://m.santander.com.br/card/api/v2/cards?activeCardsOnly=true' + index)
-            .header({'Authorization': buffer.toString('base64'), 'Accept' : 'application/json', 
+            .headers({'Authorization': buffer.toString('base64'), 'Accept' : 'application/json', 
                     'User-Agent': 'Dalvik/2.1.0 (Linux; U; Android 12; sdk_gphone64_arm64 Build/SE1A.211012.001)',
                     'versao-mbb' : '12.1.0.0',
                     'x-info-user' : '8eca3c61b1a7565ca88cf5a928626dfebb6de49cb346a3307ad1c14177439c92'})
